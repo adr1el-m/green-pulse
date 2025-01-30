@@ -33,9 +33,7 @@ app.post("/green-pulse", async (req, res) => {
         console.log("Full API Response:", JSON.stringify(result, null, 2)); // Full debug log
 
         // Correct way to extract content
-        const textResponse = result?.response?.candidates?.[0]?.content?.parts
-        ?.map(part => part.text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")) // Convert **bold** to <b>bold</b>
-        .join("<br>"); // Ensure line breaks work properly
+        const textResponse = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text || "No suggestion available.";
 
 
         if (textResponse) {
