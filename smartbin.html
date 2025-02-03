@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Recyclable Image Classifier</title>
+<style>
+  body {
+    font-family: sans-serif;
+  }
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .image-upload {
+    margin-bottom: 20px;
+  }
+  #preview {
+    max-width: 300px;
+    max-height: 300px;
+    margin-top: 10px;
+    display: none; /* Initially hidden */
+  }
+  #result {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Recyclable Image Classifier</h1>
+
+  <div class="image-upload">
+    <label for="imageInput">Upload an image:</label>
+    <input type="file" id="imageInput" accept="image/*">
+    <img id="preview" src="#" alt="Image preview">
+  </div>
+
+  <button onclick="analyzeImage()">Analyze Image</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+  const apiKey = 'AIzaSyDr-mS0aSHgcapEfJ5oNSaoiD4jyLqUZNA'; // Replace with your actual API key
+  const resultDiv = document.getElementById('result');
+  const previewImage = document.getElementById('preview');
+  const imageInput = document.getElementById('imageInput');
+
+  imageInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewImage.src = e.target.result;
+        previewImage.style.display = 'block';
+      }
+      reader.readAsDataURL(file);
+    } else {
+      previewImage.style.display = 'none';
+    }
+  });
+
+  let googleGenerativeAIReady = false;
+
+  if (typeof google !== 'undefined' && typeof google.generativeai !== 'undefined') {
+    googleGenerativeAIReady = true;
+    console.log("Gemini API already loaded!");
+  }
+
+  const geminiScript = document.querySelector('script[src*="@google/generative-ai"]');
+  geminiScript.addEventListener('load', () => {
+    googleGenerativeAIReady = true;
+    console.log("Gemini API library loaded!");
+  });
+
+  async function analyzeImage() {
+    const file = imageInput.files[0];
+    if (!file) {
+      resultDiv.textContent = "Please select an image.";
+      return;
+    }
+
+    if (!googleGenerativeAIReady) {
+      resultDiv.textContent = "Gemini API is still loading. Please wait.";
+      return;
+    }
+
+    try {
+      const base64Image = await toBase64(file);
+
+      const contents = [
+        {
+          role: 'user',
+          parts: [
+            { inline_data: { mime_type: file.type, data: base64Image } },
+            { text: "Identify if the material in the image is recyclable, compostable, or biodegradable." }
+          ]
+        }
+      ];
+
+      await google.generativeai.init({ apiKey: apiKey });
+
+      const genAI = new google.generativeai.GoogleGenerativeAI();
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+      const result = await model.generateContentStream({ contents });
+
+      let fullResponse = "";
+      for await (const response of result.stream) {
+        fullResponse += response.text();
+      }
+
+      resultDiv.textContent = fullResponse;
+
+    } catch (error) {
+      console.error("Error analyzing image:", error);
+      resultDiv.textContent = `Error: ${error.message}`;
+    }
+  }
+
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+</script>
+
+<script async src="https://unpkg.com/@google/generative-ai"></script>
+
+</body>
+</html>

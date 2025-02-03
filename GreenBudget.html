@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Friendly Shopping Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#2C5F2D",
+                        secondary: "#97BC62FF",
+                        accent: "#A7C957",
+                        dark: "#1B3B1A",
+                        light: "#E9F5DB",
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-light text-dark dark:bg-dark dark:text-light transition-all">
+    <div class="min-h-screen flex flex-col items-center justify-center px-6">
+        <div class="w-full max-w-4xl bg-white dark:bg-primary shadow-lg rounded-lg p-6">
+            <h1 class="text-3xl font-bold text-center text-primary dark:text-light">🛍️ Eco-Friendly Shopping Guide</h1>
+            <p class="text-center text-gray-600 dark:text-gray-300 mt-2">Get AI-powered sustainable product recommendations!</p>
+
+            <!-- FORM -->
+            <form id="shoppingForm" class="mt-6 grid grid-cols-1 gap-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-lg font-semibold">💰 Budget (PHP)</label>
+                        <input id="budget" type="number" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-800 dark:text-light" placeholder="Enter your budget">
+                    </div>
+                    <div>
+                        <label class="block text-lg font-semibold">🌏 Shopping Location</label>
+                        <input id="location" type="text" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-800 dark:text-light" placeholder="E.g., Metro Manila, Online">
+                    </div>
+                </div>
+                
+                <label class="block text-lg font-semibold">🏡 Lifestyle Preferences</label>
+                <textarea id="lifestyle" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-800 dark:text-light" placeholder="Describe your lifestyle (e.g., minimalist, eco-conscious, etc.)"></textarea>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-lg font-semibold">🎯 Specific Product Interests</label>
+                        <input id="preferences" type="text" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-800 dark:text-light" placeholder="E.g., organic food, sustainable fashion, etc.">
+                    </div>
+                    <div>
+                        <label class="block text-lg font-semibold">🏪 Preferred Stores</label>
+                        <input id="stores" type="text" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-800 dark:text-light" placeholder="E.g., Local markets, Eco-friendly online shops">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-lg font-semibold">🎨 Material Preferences</label>
+                        <input id="materials" type="text" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-800 dark:text-light" placeholder="E.g., Bamboo, Recycled plastic">
+                    </div>
+                    <div>
+                        <label class="block text-lg font-semibold">♻️ Sustainability Values</label>
+                        <input id="values" type="text" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-800 dark:text-light" placeholder="E.g., Fair trade, Zero waste">
+                    </div>
+                </div>
+                
+                <button type="submit" class="mt-6 w-full bg-primary text-white py-2 rounded hover:bg-secondary transition">
+                    🌱 Get Recommendations
+                </button>
+            </form>
+
+            <!-- OUTPUT -->
+            <div id="output" class="mt-6 text-lg font-semibold"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "AIzaSyDr-mS0aSHgcapEfJ5oNSaoiD4jyLqUZNA"; // Replace with your API Key
+        const form = document.getElementById("shoppingForm");
+        const output = document.getElementById("output");
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            output.innerHTML = "🌿 Generating recommendations...";
+
+            const budget = document.getElementById("budget").value;
+            const lifestyle = document.getElementById("lifestyle").value;
+            const preferences = document.getElementById("preferences").value;
+            const location = document.getElementById("location").value;
+            const stores = document.getElementById("stores").value;
+            const materials = document.getElementById("materials").value;
+            const values = document.getElementById("values").value;
+
+            const prompt = `Suggest eco-friendly products based on these preferences:\n\n**Budget:** PHP ${budget}\n**Lifestyle:** ${lifestyle}\n**Product Interests:** ${preferences}\n**Location:** ${location}\n**Preferred Stores:** ${stores}\n**Material Preferences:** ${materials}\n**Sustainability Values:** ${values}\n\nProvide structured product recommendations with details on sustainability, price range, and benefits.`;
+
+            try {
+                const response = await fetch("https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=" + API_KEY, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{ role: "user", parts: [{ text: prompt }] }]
+                    })
+                });
+
+                const data = await response.json();
+                const responseText = data.candidates[0].content.parts[0].text;
+
+                output.innerHTML = `<p class="mt-4 text-green-600">${responseText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')}</p>`;
+            } catch (error) {
+                output.innerHTML = "<p class='text-red-600'>❌ Error generating recommendations. Check API key.</p>";
+            }
+        };
+    </script>
+</body>
+</html>

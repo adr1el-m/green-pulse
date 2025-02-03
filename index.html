@@ -3,89 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carbon Footprint Prediction & Suggestions</title>
-    <link rel="stylesheet" href="index.css">
+    <title>GreenPulse - Eco Hackathon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #e0f2f1;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #1b5e20;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #388e3c;
+            margin-bottom: 20px;
+        }
+
+        .panel-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 100vw;
+        }
+
+        .panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+            background-color: #2e7d32;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
+            border: 4px solid #1b5e20;
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover {
+            box-shadow: 0 0 15px #66bb6a;
+            transform: scale(1.02);
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+
+        /* Close button */
+        .close-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .close-btn:hover {
+            background-color: #e53935;
+        }
+
+        /* Chatbot floating button */
+        .chatbot-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #388e3c;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .chatbot-btn:hover {
+            background-color: #66bb6a;
+        }
+
+        /* Chatbox Styles */
+        .chatbox {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+        }
+
+        .chatbox-header {
+            background-color: #388e3c;
+            color: white;
+            padding: 10px;
+            font-size: 1.2rem;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .message {
+        max-width: 80%;
+        margin: 5px 0;
+        padding: 8px 12px;
+        border-radius: 10px;
+        word-wrap: break-word;
+        text-align: left;
+        display: block;
+    }
+
+    .user-message {
+    background-color: #e8f5e9;
+    margin-left: auto;
+    border-top-right-radius: 2px;
+}
+
+.bot-message {
+    background-color: #f5f5f5;
+    margin-right: auto;
+}
+
+.message strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+    color: #388e3c;
+}
+
+.chatbox-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: scroll;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbox-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.chatbox-input input {
+    flex: 1;
+    padding: 8px;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+        .chatbox-input button {
+            background-color: #388e3c;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .chatbox-input button:hover {
+            background-color: #66bb6a;
+        }
+
+        .loading {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="form-wrapper">
-            <h1 class="title">Carbon Footprint Prediction & Suggestions</h1>
-            <p class="subtitle">Find out your carbon footprint and get eco-friendly suggestions!</p>
-            <form id="carbon-form" class="space-y-6">
-                <div class="form-group">
-                    <label for="transportation" class="block text-lg text-gray-700">How do you commute?</label>
-                    <select id="transportation" class="w-full p-3 border border-gray-300 rounded-lg">
-                        <option value="car">Car</option>
-                        <option value="public_transport">Public Transport</option>
-                        <option value="bicycle">Bicycle</option>
-                        <option value="walking">Walking</option>
-                    </select>
-                </div>
+    <h1>GreenPulse</h1>
+    <h2>Innovate for a Sustainable Future</h2>
 
-                <div class="form-group">
-                    <label for="energyUsage" class="block text-lg text-gray-700">How much energy do you use monthly? (kWh)</label>
-                    <input type="number" id="energyUsage" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Enter monthly energy usage" required>
-                </div>
 
-                <div class="form-group">
-                    <label for="foodChoices" class="block text-lg text-gray-700">How often do you consume meat?</label>
-                    <select id="foodChoices" class="w-full p-3 border border-gray-300 rounded-lg">
-                        <option value="every_day">Every day</option>
-                        <option value="few_times_a_week">Few times a week</option>
-                        <option value="rarely">Rarely</option>
-                        <option value="never">Never</option>
-                    </select>
-                </div>
 
-                <div class="flex justify-center">
-                    <button type="submit" class="px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700">Get Carbon Footprint Suggestions</button>
-                </div>
-            </form>
 
-            <div id="response-container" class="hidden mt-4 p-4 bg-gray-100 rounded-lg">
-                <h3 class="text-xl font-semibold text-gray-800">Your Personalized Suggestions:</h3>
-                <p id="response" class="text-lg text-gray-600"></p>
-            </div>            
+
+    <div class="panel-container">
+        <a href="calculator.html" class="panel">Sustainability</a>
+        <a href="http://localhost:8501" class="panel">Green Tech</a>
+        <a href="GreenBudget.html" class="panel">GreenBudget</a>
+        <a href="ScrapChef.html" class="panel">ScrapChef</a>
+        <a href="quiz.html" class="panel">Quiz</a>
+    </div>
+
+    <!-- Chatbot Button -->
+    <div class="chatbot-btn" onclick="toggleChatbox()">
+        <span>💬</span>
+    </div>
+
+    <!-- Chatbox -->
+    <div class="chatbox" id="chatbox">
+        <div class="chatbox-header">Chat with us!</div>
+        <div class="chatbox-messages" id="messages"></div>
+        <div class="chatbox-input">
+            <input type="text" id="userMessage" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <script>
-        document.getElementById('carbon-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
+const chatbox = document.getElementById('chatbox');
+const messages = document.getElementById('messages');
+const userMessage = document.getElementById('userMessage');
 
-            const transportation = document.getElementById('transportation').value;
-            const energyUsage = document.getElementById('energyUsage').value;
-            const foodChoices = document.getElementById('foodChoices').value;
-
-            const promptText = `Transportation: ${transportation}, Energy Usage: ${energyUsage} kWh/month, Food Choices: ${foodChoices}`;
-
-            try {
-                const response = await fetch('http://localhost:5000/green-pulse', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ promptText }),
-                });
-
-                const result = await response.json();
-                console.log("API Response:", result);
-
-                if (response.ok && result?.suggestion) {
-                    document.getElementById('response').innerHTML = result.suggestion || "No suggestions available.";
-document.getElementById('response-container').classList.remove('hidden');
-document.getElementById('response-container').style.display = 'block';
-
-} else {
-    console.error("Unexpected API response:", result);
-    document.getElementById('response').innerHTML = 'No valid suggestions received.';
-    document.getElementById('response-container').classList.remove('hidden');
+function toggleChatbox() {
+    chatbox.style.display = chatbox.style.display === 'none' || chatbox.style.display === '' ? 'flex' : 'none';
 }
 
+function formatMessage(text) {
+    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+}
 
-            } catch (error) {
-                console.error('Error fetching suggestions:', error);
-                alert('Error fetching suggestions');
-            }
+async function sendMessage() {
+    const message = userMessage.value;
+    if (message.trim() !== '') {
+        messages.innerHTML += `
+            <div class="message user-message">
+                <strong>You</strong>
+                ${formatMessage(message)}
+            </div>`;
+        userMessage.value = '';
+        messages.scrollTop = messages.scrollHeight;
+
+        // Show loading animation
+        const loadingMessage = document.createElement('div');
+        loadingMessage.classList.add('message', 'bot-message');
+        loadingMessage.innerHTML = '<strong>EcoBuddy</strong> <span class="loading">⏳ Thinking...</span>';
+        messages.appendChild(loadingMessage);
+        messages.scrollTop = messages.scrollHeight;
+
+        try {
+            const response = await getChatbotResponse(message);
+            loadingMessage.innerHTML = `<strong>EcoBuddy</strong> ${formatMessage(response)}`;
+        } catch (error) {
+            console.error("Error fetching chatbot response:", error);
+            loadingMessage.innerHTML = `<strong>EcoBuddy</strong> Sorry, there was an error processing your request.`;
+        }
+        messages.scrollTop = messages.scrollHeight;
+    }
+}
+
+async function getChatbotResponse(userInput) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve("I'm here to help with all things eco-friendly! 🌱");
+        }, 2000);
+    });
+}
+
+// Add event listener for Enter key
+userMessage.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMessage();
+    }
+});
+
+async function getChatbotResponse(message) {
+    const apiKey = 'AIzaSyDr-mS0aSHgcapEfJ5oNSaoiD4jyLqUZNA';
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+    
+    try {
+        const response = await fetch(`${url}?key=${apiKey}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: message
+                    }]
+                }]
+            })
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+            return data.candidates[0].content.parts[0].text;
+        } else {
+            console.error("Unexpected API response structure:", data);
+            return "I apologize, but I'm having trouble processing your request right now.";
+        }
+    } catch (error) {
+        console.error("Error in getChatbotResponse:", error);
+        throw error;
+    }
+}
     </script>
 </body>
 </html>
+
+
