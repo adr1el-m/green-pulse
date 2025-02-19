@@ -375,6 +375,14 @@
         body.dark-mode .chatbot-btn {
             background: #4CAF50;
         }
+
+        .analysis-result {
+            padding: 20px;
+        }
+
+        .analysis-result strong {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -482,15 +490,11 @@
 
         // Load previous calculation
         function loadPreviousCalculation() {
-            const savedData = localStorage.getItem('lastCalculation');
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                Object.keys(data).forEach(key => {
-                    const element = document.getElementById(key);
-                    if (element) element.value = data[key];
-                });
-                updateProgress();
-            }
+            // Clear all input fields
+            formInputs.forEach(input => {
+                input.value = '';
+            });
+            updateProgress();
         }
 
         // Add this helper function for formatting the text
@@ -500,6 +504,8 @@
                 .replace(/##\s*(.*?)\n/g, '<h2>$1</h2>')
                 // Convert bold (**text**) to <strong>
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                // Remove single asterisks and make text bold
+                .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
                 // Convert newlines to <br>
                 .replace(/\n/g, '<br>');
         }

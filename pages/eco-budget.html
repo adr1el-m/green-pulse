@@ -306,6 +306,16 @@
             background: rgba(255, 255, 255, 0.05);
             color: #e0e0e0;
         }
+
+        body.dark-mode .currency-select {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .currency-select option {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
     </style>
 </head>
 <body>
@@ -431,18 +441,11 @@
 
         // Load previous calculation
         function loadPreviousCalculation() {
-            const savedData = localStorage.getItem('lastBudgetCalculation');
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                if (data.currency) {
-                    document.getElementById('currency').value = data.currency;
-                }
-                Object.keys(data).forEach(key => {
-                    const element = document.getElementById(key);
-                    if (element) element.value = data[key];
-                });
-                updateProgress();
-            }
+            // Clear all input fields instead of loading saved data
+            formInputs.forEach(input => {
+                input.value = '';
+            });
+            updateProgress();
         }
 
         form.onsubmit = async (e) => {

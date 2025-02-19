@@ -115,6 +115,18 @@
             background: rgba(255, 255, 255, 0.9);
             font-size: 1rem;
             transition: all 0.3s ease;
+            color: #1b5e20;
+        }
+
+        body.dark-mode select {
+            background: rgba(30, 30, 30, 0.9);
+            border-color: rgba(76, 175, 80, 0.3);
+            color: #e0e0e0;
+        }
+
+        body.dark-mode select option {
+            background: rgba(30, 30, 30, 0.9);
+            color: #ffffff;
         }
 
         select:focus {
@@ -198,14 +210,29 @@
             font-weight: 500;
             background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode #feedback {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
         }
 
         #feedback p.text-green-600 {
             color: #2e7d32;
         }
 
+        body.dark-mode #feedback p.text-green-600 {
+            color: #81c784;
+        }
+
         #feedback p.text-red-600 {
             color: #c62828;
+        }
+
+        body.dark-mode #feedback p.text-red-600 {
+            color: #ef5350;
         }
 
         #restartButton {
@@ -350,6 +377,40 @@
 
         body.dark-mode .optionBtn:hover:not(.bg-accent) {
             background: rgba(255, 255, 255, 0.1);
+        }
+
+        .quiz-form button[type="submit"] {
+            display: block;
+            margin: 0 auto;
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .quiz-form button[type="submit"]:hover {
+            background-color: #388e3c;
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+        }
+
+        .font-medium {
+            font-weight: 500;
+        }
+
+        body.dark-mode .text-xl.font-medium {
+            color: #ffffff;
+        }
+
+        /* Dark mode styles for quiz questions */
+        body.dark-mode #questionContainer p {
+            color: #ffffff;
         }
     </style>
 </head>

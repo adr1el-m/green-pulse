@@ -8,6 +8,7 @@
     <!-- Add Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/eco-hub-180.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @keyframes leafFall {
             0% {
@@ -36,13 +37,25 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
         }
 
         @keyframes shimmer {
-            0% { background-position: -100% 0; }
-            100% { background-position: 200% 0; }
+            0% {
+                background-position: -100% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
 
         * {
@@ -354,7 +367,7 @@
             background: rgba(76, 175, 80, 0.1);
             z-index: 1000;
         }
-        
+
         .progress-bar {
             height: 100%;
             background: linear-gradient(90deg, #1b5e20, #4CAF50);
@@ -362,7 +375,7 @@
             width: 0%;
             transition: width 0.3s ease;
         }
-        
+
         /* Achievement badge */
         .achievement {
             position: fixed;
@@ -380,10 +393,17 @@
             z-index: 1000;
             transform-origin: left center;
         }
-        
+
         @keyframes slideIn {
-            from { transform: translateX(-100%) scale(0.8); opacity: 0; }
-            to { transform: translateX(0) scale(1); opacity: 1; }
+            from {
+                transform: translateX(-100%) scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
         }
 
         /* Smooth scroll behavior */
@@ -416,8 +436,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Quick Actions */
@@ -484,10 +509,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            min-width: 350px;
-            max-width: 500px;
+            min-width: 500px;
+            max-width: 800px;
             padding: 0;
             animation: slideUp 0.4s ease-out;
+            box-sizing: border-box;
         }
 
         .modal-header {
@@ -505,34 +531,39 @@
         }
 
         .calculator-form {
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            box-sizing: border-box;
+            padding: 1rem;
+            margin-bottom: 0;
         }
 
-        .input-group {
-            position: relative;
+        .calculator-form .form-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: nowrap;
+            margin-bottom: 20px;
+        }
+
+        .calculator-form .input-group {
+            flex: 1;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.5rem;
+            box-sizing: border-box;
         }
 
-        .input-group i {
-            color: #4CAF50;
-            font-size: 1.2em;
-        }
-
-        .input-group input {
-            flex: 1;
-            padding: 12px 15px;
+        .calculator-form .input-group input {
+            width: 100%;
+            padding: 10px;
             border: 2px solid rgba(76, 175, 80, 0.2);
             border-radius: 12px;
             font-size: 1rem;
-            transition: all 0.3s ease;
+            box-sizing: border-box;
         }
 
-        .input-group input:focus {
+        .calculator-form .input-group input:focus {
             border-color: #4CAF50;
             box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
             outline: none;
@@ -561,18 +592,16 @@
         }
 
         .calculate-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 12px 25px;
             background: linear-gradient(135deg, #1b5e20, #4CAF50);
             color: white;
             border: none;
-            padding: 12px 25px;
             border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
             transition: transform 0.3s ease;
         }
 
@@ -587,13 +616,25 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes slideUp {
-            from { transform: translate(-50%, 20px); opacity: 0; }
-            to { transform: translate(-50%, -50%); opacity: 1; }
+            from {
+                transform: translate(-50%, 20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translate(-50%, -50%);
+                opacity: 1;
+            }
         }
 
         .eco-tip-container h2 {
@@ -939,25 +980,25 @@
             .eco-tips-carousel {
                 width: 95%;
             }
-            
+
             .tip-container {
                 padding: 1.5rem;
             }
-            
+
             .tip {
                 flex-direction: column;
                 text-align: center;
                 gap: 1rem;
             }
-            
+
             .eco-decoration {
                 display: none;
             }
-            
+
             .tip p {
                 font-size: 1rem;
             }
-            
+
             .next-tip-btn {
                 width: 100%;
                 justify-content: center;
@@ -966,9 +1007,17 @@
 
         /* Loading animation */
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         .tip i.loading {
@@ -977,14 +1026,30 @@
 
         /* Add new loading animation styles */
         @keyframes loadingSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes loadingPulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
         }
 
         .tip.loading {
@@ -1014,99 +1079,214 @@
 
         /* Add this CSS to increase the size of the Daily Eco Tip header */
         .tip-content h3 {
-            font-size: 2.5rem; /* Adjust the size as needed */
-            margin-bottom: 1rem; /* Add some space below the header */
+            font-size: 2.5rem;
+            /* Adjust the size as needed */
+            margin-bottom: 1rem;
+            /* Add some space below the header */
         }
 
         /* Update the close button styles for better visibility and interaction */
         .close-modal {
-            background: transparent; /* Make background transparent */
-            border: none; /* Remove border */
-            color: white; /* Change color to white for better contrast */
-            font-size: 1.5em; /* Increase font size */
-            cursor: pointer; /* Change cursor to pointer */
-            transition: color 0.3s ease; /* Add transition for hover effect */
+            background: transparent;
+            /* Make background transparent */
+            border: none;
+            /* Remove border */
+            color: white;
+            /* Change color to white for better contrast */
+            font-size: 1.5em;
+            /* Increase font size */
+            cursor: pointer;
+            /* Change cursor to pointer */
+            transition: color 0.3s ease;
+            /* Add transition for hover effect */
         }
 
         .close-modal:hover {
-            color: #ff4d4d; /* Change color on hover for better feedback */
+            color: #ff4d4d;
+            /* Change color on hover for better feedback */
         }
 
         /* Dark theme styles for quick actions */
         [data-theme="dark"] .quick-actions {
-            background: rgba(33, 33, 33, 0.9); /* Dark background for quick actions */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Darker shadow for depth */
+            background: rgba(33, 33, 33, 0.9);
+            /* Dark background for quick actions */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            /* Darker shadow for depth */
         }
 
         [data-theme="dark"] .action-btn {
-            background: rgba(255, 255, 255, 0.1); /* Lighter background for action buttons in dark mode */
-            color: #ffffff; /* Change text color to white */
+            background: rgba(255, 255, 255, 0.1);
+            /* Lighter background for action buttons in dark mode */
+            color: #ffffff;
+            /* Change text color to white */
         }
 
         [data-theme="dark"] .action-btn:hover {
-            background: rgba(255, 255, 255, 0.2); /* Lighter background on hover */
+            background: rgba(255, 255, 255, 0.2);
+            /* Lighter background on hover */
         }
 
         /* Dark theme styles for FAQ section */
         [data-theme="dark"] .faq-section {
-            background: rgba(33, 33, 33, 0.95); /* Dark background for FAQ section */
-            color: white; /* Change text color to white */
+            background: rgba(33, 33, 33, 0.95);
+            /* Dark background for FAQ section */
+            color: white;
+            /* Change text color to white */
         }
 
         [data-theme="dark"] .faq-item h3 {
-            color: #4CAF50; /* Change question color to match the theme */
+            color: #4CAF50;
+            /* Change question color to match the theme */
         }
 
         [data-theme="dark"] .faq-item p {
-            color: #ffffff; /* Change answer text color to white */
+            color: #ffffff;
+            /* Change answer text color to white */
         }
 
+        /* FAQ Section Styles */
         .faq-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
             transition: background 0.3s, color 0.3s;
         }
 
-        .faq-item {
+        /* Make the FAQ heading bold */
+        .faq-section h2 {
+            text-align: center;
             margin-bottom: 1rem;
+            color: #1b5e20;
+            font-weight: bold;
+        }
+
+        /* FAQ Items */
+        .faq-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
         }
 
         .faq-question {
+            color: #1b5e20;
             cursor: pointer;
-            font-weight: bold;
-            color: #388e3c;
-            transition: color 0.3s;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            margin: 0;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
         }
 
         .faq-question:hover {
-            color: #4CAF50; /* Highlight on hover */
+            background: rgba(76, 175, 80, 0.1);
         }
 
         .faq-answer {
-            display: none; /* Initially hidden */
+            color: #1b5e20;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.4s ease;
+            padding: 0 0.5rem;
             margin-top: 0.5rem;
-            padding: 10px;
-            background: rgba(76, 175, 80, 0.1);
-            border-radius: 5px;
         }
 
-        /* Dark mode styles */
+        /* When the FAQ answer is toggled open */
+        .faq-answer.active {
+            max-height: 150px; /* Adjust if needed */
+            opacity: 1;
+            padding: 0.5rem;
+        }
+
+        /* Dark Mode FAQ Styles */
         [data-theme="dark"] .faq-section {
             background: rgba(33, 33, 33, 0.95);
-            color: white;
+            color: #ffffff;
+        }
+
+        [data-theme="dark"] .faq-section h2 {
+            color: #ffffff;
         }
 
         [data-theme="dark"] .faq-question {
-            color: #4CAF50; /* Change question color to match the theme */
+            color: #4CAF50;
+        }
+
+        [data-theme="dark"] .faq-question:hover {
+            background: rgba(76, 175, 80, 0.2);
         }
 
         [data-theme="dark"] .faq-answer {
             background: rgba(76, 175, 80, 0.2);
-            color: #ffffff; /* Change answer text color to white */
+            color: #ffffff;
         }
 
-        /* Add styles for active FAQ items */
-        .faq-answer.active {
-            display: block;
-            animation: fadeIn 0.3s ease-out;
+        /* Optional: If you want to explicitly target light mode (assuming data-theme="light") */
+        [data-theme="light"] .faq-question,
+        [data-theme="light"] .faq-answer {
+            color: #1b5e20;
+        }
+
+        /* Optional: Adjust font size on smaller screens */
+        @media (max-width: 600px) {
+            .calculator-form .input-group input {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Updated Calculator Modal Styles */
+        #calculatorModal .modal-content {
+            width: 90vw;           /* Adjusted width for a wider modal */
+            max-width: 600px;     /* Cap the modal width at 600px */
+            max-height: 80vh;     /* Set a maximum height for the modal */
+            padding: 1rem;        /* Optional padding for inner content */
+            margin: auto;         /* Center the modal horizontally */
+            box-sizing: border-box;
+            overflow-y: auto;     /* Make the modal scrollable */
+        }
+
+        /* Updated Calculator Result Styles */
+        .impact-results {
+            background: linear-gradient(135deg, #f0fff4, #ccffe6); /* Subtle green gradient */
+            border: 1px solid #4CAF50;
+            padding: 20px;
+            border-radius: 12px;
+            color: #1b5e20; /* Default text color */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        /* Dark theme styles for impact results */
+        [data-theme="dark"] .impact-results {
+            background: rgba(33, 33, 33, 0.95); /* Dark background */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Light border */
+            color: #ffffff; /* Change text color to white for better contrast */
+        }
+
+        /* Custom Scrollbar Styles for Modal */
+        #calculatorModal .modal-content::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+        }
+
+        #calculatorModal .modal-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1); /* Background of the scrollbar track */
+            border-radius: 10px; /* Rounded corners for the track */
+        }
+
+        #calculatorModal .modal-content::-webkit-scrollbar-thumb {
+            background: #4CAF50; /* Color of the scrollbar thumb */
+            border-radius: 10px; /* Rounded corners for the thumb */
+        }
+
+        #calculatorModal .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #388e3c; /* Darker color on hover */
+        }
+
+        /* For Firefox */
+        #calculatorModal .modal-content {
+            scrollbar-width: thin; /* Make scrollbar thin */
+            scrollbar-color: #4CAF50 rgba(0, 0, 0, 0.1); /* Thumb color and track color */
         }
     </style>
 </head>
@@ -1129,6 +1309,7 @@
             <i class="fas fa-moon"></i>
         </button>
     </div>
+
 
     <!-- Update the eco-tips-carousel structure -->
     <div class="eco-tips-carousel">
@@ -1167,7 +1348,8 @@
         <a href="pages/enviro-sort.html" class="panel">
             <i class="fas fa-microchip"></i>
             <div class="panel-title">Enviro Sort</div>
-            <div class="panel-description">AI-powered waste classification tool that helps users sort trash correctly using image recognition</div>
+            <div class="panel-description">AI-powered waste classification tool that helps users sort trash correctly
+                using image recognition</div>
         </a>
         <a href="pages/eco-budget.html" class="panel">
             <i class="fas fa-coins"></i>
@@ -1212,7 +1394,7 @@
     <div class="eco-progress">
         <div class="progress-bar" id="progressBar"></div>
     </div>
-    
+
     <!-- Add achievement notification -->
     <div class="achievement" id="achievement">
         <i class="fas fa-award"></i>
@@ -1235,46 +1417,39 @@
                 <h3>Carbon Footprint Calculator</h3>
                 <button class="close-modal" onclick="hideModal('calculator')">×</button>
             </div>
-            
+
             <div class="calculator-form">
-                <div class="input-group">
-                    <i class="fas fa-bolt"></i>
-                    <input type="number" 
-                           id="electricityUsage" 
-                           placeholder="Monthly electricity (kWh)"
-                           onchange="updateLiveImpact()">
-                </div>
-                
-                <div class="input-group">
-                    <i class="fas fa-water"></i>
-                    <input type="number" 
-                           id="waterUsage" 
-                           placeholder="Monthly water usage (Gallons)"
-                           onchange="updateLiveImpact()">
-                </div>
-
-                <!-- New input fields for transportation and waste -->
-                <div class="input-group">
-                    <i class="fas fa-car"></i>
-                    <input type="number" 
-                           id="transportationUsage" 
-                           placeholder="Monthly transportation (miles)"
-                           onchange="updateLiveImpact()">
+                <!-- Horizontal Row for Input Fields -->
+                <div class="form-row">
+                    <div class="input-group">
+                        <i class="fas fa-bolt"></i>
+                        <input type="number" id="electricityUsage" placeholder="Monthly electricity (kWh)" onchange="updateLiveImpact()">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-water"></i>
+                        <input type="number" id="waterUsage" placeholder="Monthly water usage (Gallons)" onchange="updateLiveImpact()">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-car"></i>
+                        <input type="number" id="transportationUsage" placeholder="Monthly transportation (miles)" onchange="updateLiveImpact()">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-trash"></i>
+                        <input type="number" id="wasteUsage" placeholder="Monthly waste (pounds)" onchange="updateLiveImpact()">
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <i class="fas fa-trash"></i>
-                    <input type="number" 
-                           id="wasteUsage" 
-                           placeholder="Monthly waste (pounds)"
-                           onchange="updateLiveImpact()">
-                </div>
-
+                <!-- Existing Live Impact Meter -->
                 <div class="live-impact" id="liveImpact">
                     <div class="impact-meter">
                         <div class="meter-fill" id="impactMeter"></div>
                     </div>
                     <p>Impact Level: <span id="impactLevel">Low</span></p>
+                </div>
+
+                <!-- Impact Visualization Chart -->
+                <div class="chart-container" style="position: relative; height:200px; margin-top:20px; width:100%;">
+                    <canvas id="impactChart"></canvas>
                 </div>
 
                 <button class="calculate-btn" onclick="calculateImpact()">
@@ -1289,34 +1464,39 @@
 
     <!-- Add these new elements after the header -->
     <div class="eco-particles"></div>
-    
+
     <div class="scroll-progress">
         <div class="progress-value"></div>
     </div>
-    
+
     <div class="page-transition"></div>
 
-    <div class="faq-section" style="padding: 2rem; background: rgba(255, 255, 255, 0.9); border-radius: 10px; margin: 2rem 0;">
-        <h2 style="text-align: center; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <div class="faq-section">
+        <h2>Frequently Asked Questions</h2>
         <div class="faq-item">
             <h3 class="faq-question" onclick="toggleFAQ(this)">1. What is GreenPulse?</h3>
-            <p class="faq-answer">GreenPulse is an eco-innovation hub that provides tools and resources to help individuals and organizations reduce their environmental impact.</p>
+            <p class="faq-answer">GreenPulse is an eco-innovation hub that provides tools and resources to help
+                individuals and organizations reduce their environmental impact.</p>
         </div>
         <div class="faq-item">
             <h3 class="faq-question" onclick="toggleFAQ(this)">2. How does the carbon footprint calculator work?</h3>
-            <p class="faq-answer">The calculator estimates your carbon footprint based on your electricity, water usage, transportation, and waste. It provides personalized recommendations to help you reduce your impact.</p>
+            <p class="faq-answer">The calculator estimates your carbon footprint based on your electricity, water usage,
+                transportation, and waste. It provides personalized recommendations to help you reduce your impact.</p>
         </div>
         <div class="faq-item">
             <h3 class="faq-question" onclick="toggleFAQ(this)">3. Why is it important to track my carbon footprint?</h3>
-            <p class="faq-answer">Tracking your carbon footprint helps you understand your environmental impact and identify areas where you can make changes to live more sustainably.</p>
+            <p class="faq-answer">Tracking your carbon footprint helps you understand your environmental impact and
+                identify areas where you can make changes to live more sustainably.</p>
         </div>
         <div class="faq-item">
             <h3 class="faq-question" onclick="toggleFAQ(this)">4. How can I reduce my carbon footprint?</h3>
-            <p class="faq-answer">You can reduce your carbon footprint by using energy-efficient appliances, conserving water, reducing waste, and opting for sustainable transportation options.</p>
+            <p class="faq-answer">You can reduce your carbon footprint by using energy-efficient appliances, conserving
+                water, reducing waste, and opting for sustainable transportation options.</p>
         </div>
         <div class="faq-item">
             <h3 class="faq-question" onclick="toggleFAQ(this)">5. Can I contribute to GreenPulse?</h3>
-            <p class="faq-answer">Yes! You can contribute by sharing your eco-friendly tips, participating in community discussions, and spreading the word about sustainability.</p>
+            <p class="faq-answer">Yes! You can contribute by sharing your eco-friendly tips, participating in community
+                discussions, and spreading the word about sustainability.</p>
         </div>
     </div>
 
@@ -1383,42 +1563,42 @@
         }
 
         async function getChatbotResponse(message) {
-    const apiKey = 'AIzaSyDr-mS0aSHgcapEfJ5oNSaoiD4jyLqUZNA';
-    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-    
-    try {
-        const response = await fetch(`${url}?key=${apiKey}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: message
-                    }]
-                }]
-            })
-        });
+            const apiKey = 'AIzaSyDr-mS0aSHgcapEfJ5oNSaoiD4jyLqUZNA';
+            const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            try {
+                const response = await fetch(`${url}?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: message
+                            }]
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    return data.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("Unexpected API response structure:", data);
+                    return "I apologize, but I'm having trouble processing your request right now.";
+                }
+            } catch (error) {
+                console.error("Error in getChatbotResponse:", error);
+                throw error;
+            }
         }
 
-        const data = await response.json();
-        
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-            return data.candidates[0].content.parts[0].text;
-        } else {
-            console.error("Unexpected API response structure:", data);
-            return "I apologize, but I'm having trouble processing your request right now.";
-        }
-    } catch (error) {
-        console.error("Error in getChatbotResponse:", error);
-        throw error;
-    }
-}
-        
         // Progress tracking
         let progress = 0;
         const panels = document.querySelectorAll('.panel');
@@ -1427,13 +1607,13 @@
                 progress += 20;
                 if (progress > 100) progress = 100;
                 document.getElementById('progressBar').style.width = `${progress}%`;
-                
+
                 if (progress === 100) {
                     showAchievement('Eco Master! 🌟 You\'ve explored all features!');
                 }
             });
         });
-        
+
         // Initialize panels with staggered animation
         document.querySelectorAll('.panel').forEach((panel, index) => {
             panel.style.setProperty('--delay', index * 0.2);
@@ -1447,7 +1627,7 @@
                 document.getElementById('loadingOverlay').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('loadingOverlay').style.display = 'none';
-                    
+
                     // Animate panels
                     document.querySelectorAll('.panel').forEach((panel, index) => {
                         setTimeout(() => {
@@ -1474,10 +1654,10 @@
             achievementText.textContent = text;
             achievement.style.display = 'flex';
             achievement.style.animation = 'slideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-            
+
             // Add confetti effect
             createConfetti();
-            
+
             setTimeout(() => {
                 achievement.style.animation = 'slideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) reverse';
                 setTimeout(() => {
@@ -1520,14 +1700,14 @@
             leaves.forEach(leaf => {
                 const rect = leaf.getBoundingClientRect();
                 const distance = Math.hypot(
-                    e.clientX - (rect.left + rect.width/2),
-                    e.clientY - (rect.top + rect.height/2)
+                    e.clientX - (rect.left + rect.width / 2),
+                    e.clientY - (rect.top + rect.height / 2)
                 );
-                
+
                 if (distance < 100) {
                     const angle = Math.atan2(
-                        e.clientY - (rect.top + rect.height/2),
-                        e.clientX - (rect.left + rect.width/2)
+                        e.clientY - (rect.top + rect.height / 2),
+                        e.clientX - (rect.left + rect.width / 2)
                     );
                     leaf.style.transform += ` translate(${Math.cos(angle) * 20}px, ${Math.sin(angle) * 20}px)`;
                 }
@@ -1546,22 +1726,35 @@
         }
 
         function updateLiveImpact() {
-            const electricity = document.getElementById('electricityUsage').value || 0;
-            const water = document.getElementById('waterUsage').value || 0;
-            const transportation = document.getElementById('transportationUsage').value || 0;
-            const waste = document.getElementById('wasteUsage').value || 0;
-            
-            // Calculate impact based on new parameters
-            const impact = (electricity * 0.92 + water * 0.18 + transportation * 0.411 + waste * 0.1);
-            const percentage = Math.min((impact / 1000) * 100, 100);
-            
+            const electricity = parseFloat(document.getElementById('electricityUsage').value) || 0;
+            const water = parseFloat(document.getElementById('waterUsage').value) || 0;
+            const transportation = parseFloat(document.getElementById('transportationUsage').value) || 0;
+            const waste = parseFloat(document.getElementById('wasteUsage').value) || 0;
+
+            // Calculate individual impacts
+            const electricityImpact = electricity * 0.92;
+            const waterImpact = water * 0.18;
+            const transportationImpact = transportation * 0.411;
+            const wasteImpact = waste * 0.1;
+            const totalImpact = electricityImpact + waterImpact + transportationImpact + wasteImpact;
+
+            // Update the impact meter (scaling totalImpact to a 0%-100% width)
+            const percentage = Math.min((totalImpact / 1000) * 100, 100);
             document.getElementById('impactMeter').style.width = `${percentage}%`;
-            
+
+            // Determine impact level based on totalImpact value
             let level = 'Low';
-            if (impact > 500) level = 'High';
-            else if (impact > 200) level = 'Medium';
-            
+            if (totalImpact > 500) level = 'High';
+            else if (totalImpact > 200) level = 'Medium';
             document.getElementById('impactLevel').textContent = level;
+
+            // Update the Chart.js data if available
+            if (window.impactChart) {
+                window.impactChart.data.datasets[0].data = [electricityImpact, waterImpact, transportationImpact, wasteImpact];
+                // Optionally, adjust the Y-axis maximum if totalImpact is high
+                window.impactChart.options.scales.y.suggestedMax = Math.max(totalImpact, 100);
+                window.impactChart.update();
+            }
         }
 
         function calculateImpact() {
@@ -1569,7 +1762,7 @@
             const water = document.getElementById('waterUsage').value;
             const transportation = document.getElementById('transportationUsage').value;
             const waste = document.getElementById('wasteUsage').value;
-            
+
             if (!electricity || !water || !transportation || !waste) {
                 document.getElementById('calculationResult').innerHTML = `
                     <div class="error-message">
@@ -1579,11 +1772,11 @@
                 `;
                 return;
             }
-            
+
             // Calculate carbon footprint
             const carbonFootprint = (electricity * 0.92 + water * 0.18 + transportation * 0.411 + waste * 0.1).toFixed(2);
             const treesNeeded = (carbonFootprint / 48).toFixed(1);
-            
+
             document.getElementById('calculationResult').innerHTML = `
                 <div class="impact-results">
                     <h4>Your Monthly Impact</h4>
@@ -1592,10 +1785,6 @@
                         <small>kg CO₂</small>
                     </div>
                     <p>This is equivalent to ${treesNeeded} trees needed to offset your carbon footprint</p>
-                    <div class="eco-tip">
-                        <i class="fas fa-lightbulb"></i>
-                        <p>Reduce your footprint by 10% to earn an eco badge!</p>
-                    </div>
                 </div>
             `;
 
@@ -1609,7 +1798,7 @@
         function createEcoParticles() {
             const container = document.querySelector('.eco-particles');
             const particleCount = 20;
-            
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -1634,11 +1823,11 @@
         document.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', (e) => {
                 if (link.getAttribute('href').startsWith('#')) return;
-                
+
                 e.preventDefault();
                 const transition = document.querySelector('.page-transition');
                 transition.style.transform = 'scaleY(1)';
-                
+
                 setTimeout(() => {
                     window.location = link.href;
                 }, 500);
@@ -1664,13 +1853,13 @@
             const body = document.body;
             const currentTheme = localStorage.getItem('theme') || 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
+
             // Save theme preference to localStorage
             localStorage.setItem('theme', newTheme);
-            
+
             // Apply theme
             body.setAttribute('data-theme', newTheme);
-            
+
             const themeIcon = document.querySelector('.theme-btn i');
             themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         }
@@ -1747,7 +1936,7 @@
                     "Start a small balcony garden to grow your own vegetables and reduce carbon footprint.",
                     "Replace paper towels with reusable cloth napkins to reduce paper waste."
                 ];
-                
+
                 // Remove used tips from the array to avoid repetition
                 const unusedTips = fallbackTips.filter(tip => !ecoTips.includes(tip));
                 if (unusedTips.length === 0) return fallbackTips[0]; // If all used, start over
@@ -1759,7 +1948,7 @@
             // Show loading state before fetching
             const currentTip = document.querySelector('.tip');
             const tipText = document.getElementById('tipText');
-            
+
             currentTip.classList.add('loading');
             tipText.innerHTML = `
                 <div class="loading-leaf">🌿</div>
@@ -1784,7 +1973,7 @@
             const nextBtn = document.getElementById('nextTipBtn');
             const currentTip = document.querySelector('.tip');
             const tipText = document.getElementById('tipText');
-            
+
             if (loading) {
                 currentTip.classList.add('loading');
                 nextBtn.classList.add('disabled');
@@ -1802,26 +1991,26 @@
 
         async function displayCurrentTip() {
             if (isLoading) return;
-            
+
             const tipText = document.getElementById('tipText');
             const currentTip = document.querySelector('.tip');
-            
+
             // Keep the current tip visible and just update the text
             if (currentTipIndex >= ecoTips.length - 2) {
                 await loadMoreTips();
             }
-            
+
             tipText.textContent = ecoTips[currentTipIndex];
             console.log('Displaying tip:', ecoTips[currentTipIndex]); // Debug log
         }
 
         async function nextTip() {
             if (isLoading) return;
-            
+
             if (currentTipIndex >= ecoTips.length - 1) {
                 await loadMoreTips();
             }
-            
+
             currentTipIndex = (currentTipIndex + 1) % Math.max(ecoTips.length, 1);
             await displayCurrentTip();
         }
@@ -1830,7 +2019,7 @@
         window.addEventListener('DOMContentLoaded', async () => {
             await loadMoreTips();
             await displayCurrentTip();
-            
+
             // Auto-rotate tips every 15 seconds
             setInterval(async () => {
                 if (!isLoading) {
@@ -1841,8 +2030,45 @@
 
         function toggleFAQ(element) {
             const answer = element.nextElementSibling;
-            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+            answer.classList.toggle('active');
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('impactChart').getContext('2d');
+            window.impactChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Electricity', 'Water', 'Transportation', 'Waste'],
+                    datasets: [{
+                        label: 'CO₂ Impact (kg)',
+                        data: [0, 0, 0, 0],
+                        backgroundColor: [
+                            'rgba(76, 175, 80, 0.7)',
+                            'rgba(139, 195, 74, 0.7)',
+                            'rgba(156, 204, 101, 0.7)',
+                            'rgba(205, 220, 57, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(76, 175, 80, 1)',
+                            'rgba(139, 195, 74, 1)',
+                            'rgba(156, 204, 101, 1)',
+                            'rgba(205, 220, 57, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 100
+                        }
+                    }
+                }
+            });
+        });
     </script>
 </body>
 
